@@ -81,6 +81,7 @@ function drawFriends(canvas) {
     imageEl.setAttribute("x", friends.get("red-friend").x * CELL_SIZE);
     imageEl.setAttribute("y", friends.get("red-friend").y * CELL_SIZE);
     imageEl.setAttribute("id", friends.get("red-friend").name);
+    imageEl.setAttribute("class", "friend");
     canvas.appendChild(imageEl);
     return imageEl;
 }

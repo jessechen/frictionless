@@ -9,3 +9,8 @@ body {
     width: 512px;
     background-color: #fff8e7;
 }
+
+.friend {
+    transition: x 0.1s ease-in-out;
+    transition: y 0.1s ease-in-out;
+}
