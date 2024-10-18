@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-    init();
-});
+document.addEventListener("DOMContentLoaded", init);
   
 const verticalWalls = [[2, 3], [1, 4], [3, 4]];
 const horizontalWalls = [[3, 2], [4, 1], [4, 3]];
@@ -8,13 +6,14 @@ const GRID_SIZE = 8;
 const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
-const players = [[2, 2]];
+let players = [[2, 2]];
 
 function init() {
     const canvas = document.getElementById("content");
     drawGrid(canvas);
     drawWalls(canvas);
     drawFriends(canvas);
+    document.addEventListener("keydown", handleKeydown);
 }
 
 function drawGrid(canvas) {
@@ -57,5 +56,27 @@ function drawFriends(canvas) {
     imageEl.setAttribute("width", CELL_SIZE);
     imageEl.setAttribute("x", players[0][0] * CELL_SIZE);
     imageEl.setAttribute("y", players[0][1] * CELL_SIZE);
+    imageEl.setAttribute("id", "red-friend");
     canvas.appendChild(imageEl);
+    return imageEl;
+}
+
+function handleKeydown(evt) {
+    switch(evt.key) {
+        case "ArrowUp":
+            players[0][1] -= 1;
+            break;
+        case "ArrowRight":
+            players[0][0] += 1;
+            break;
+        case "ArrowDown":
+            players[0][1] += 1;
+            break;
+        case "ArrowLeft":
+            players[0][0] -= 1;
+            break;
+    }
+    const friendEl = document.getElementById("red-friend");
+    friendEl.setAttribute("x", players[0][0] * CELL_SIZE);
+    friendEl.setAttribute("y", players[0][1] * CELL_SIZE);
 }
