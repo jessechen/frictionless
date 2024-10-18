@@ -11,6 +11,5 @@ body {
 }
 
 .friend {
-    transition: x 0.1s ease-in-out;
-    transition: y 0.1s ease-in-out;
+    transition: x 0.1s ease-in-out, y 0.1s ease-in-out;
 }
