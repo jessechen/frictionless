@@ -8,8 +8,9 @@ class Friend {
     }
 }
 
-const verticalWalls = [[2, 3], [1, 4], [3, 4]];
-const horizontalWalls = [[3, 2], [4, 1], [4, 3]];
+const verticalWalls = [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]];
+const horizontalWalls = [[0, 6], [1, 2], [3, 7], [6, 2], [6, 5], [7, 7]];
+const goals = [[6, 1], [1, 2], [6, 5], [3, 6]];
 const GRID_SIZE = 8;
 const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
@@ -20,6 +21,7 @@ friends.set("red-friend", new Friend(2, 2, "red-friend"))
 function init() {
     const canvas = document.getElementById("content");
     drawGrid(canvas);
+    drawGoals(canvas);
     drawWalls(canvas);
     drawFriends(canvas);
     document.addEventListener("keydown", handleKeydown);
@@ -54,6 +56,19 @@ function drawWalls(canvas) {
     pathEl.setAttribute("stroke-width", "5");
     pathEl.setAttribute("fill", "none");
     canvas.appendChild(pathEl);
+}
+
+function drawGoals(canvas) {
+    for (let goal of goals) {
+        const goalEl = document.createElementNS(SVG_NS, "rect");
+        goalEl.setAttribute("x", goal[0] * CELL_SIZE);
+        goalEl.setAttribute("y", goal[1] * CELL_SIZE);
+        goalEl.setAttribute("width", CELL_SIZE);
+        goalEl.setAttribute("height", CELL_SIZE);
+        goalEl.setAttribute("stroke", "none");
+        goalEl.setAttribute("fill", "#f88");
+        canvas.appendChild(goalEl);
+    }
 }
 
 function drawFriends(canvas) {
