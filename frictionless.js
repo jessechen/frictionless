@@ -112,12 +112,13 @@ function moveFriend(name, direction) {
             friend.y = newY || 0;
             break;
         case "ArrowRight":
-            newX = horizontalWalls.filter((wall) => wall[1] === friend.y)
-                .filter((wall) => wall[1] > friend.x)
-                .map((wall) => wall[1])
+            newX = verticalWalls.filter((wall) => wall[1] === friend.y)
+                .filter((wall) => wall[0] > friend.x)
+                .map((wall) => wall[0])
                 .sort()
                 .at(0);
-            friend.x = newX || GRID_SIZE - 1;
+            newX ||= GRID_SIZE;
+            friend.x = newX - 1;
             break;
         case "ArrowDown":
             newY = horizontalWalls.filter((wall) => wall[0] === friend.x)
@@ -125,12 +126,13 @@ function moveFriend(name, direction) {
                 .map((wall) => wall[1])
                 .sort()
                 .at(0);
-            friend.y = newY || GRID_SIZE - 1;
+            newY ||= GRID_SIZE;
+            friend.y = newY - 1;
             break;
         case "ArrowLeft":
-            newY = horizontalWalls.filter((wall) => wall[1] === friend.y)
-                .filter((wall) => wall[1] <= friend.x)
-                .map((wall) => wall[1])
+            newX = verticalWalls.filter((wall) => wall[1] === friend.y)
+                .filter((wall) => wall[0] <= friend.x)
+                .map((wall) => wall[0])
                 .sort()
                 .at(-1);
             friend.x = newX || 0;
