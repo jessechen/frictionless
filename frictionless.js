@@ -14,6 +14,7 @@ function init() {
     const canvas = document.getElementById("content");
     drawGrid(canvas);
     drawWalls(canvas);
+    drawFriends(canvas);
 }
 
 function drawGrid(canvas) {
@@ -45,4 +46,16 @@ function drawWalls(canvas) {
     pathEl.setAttribute("stroke-width", "5");
     pathEl.setAttribute("fill", "none");
     canvas.appendChild(pathEl);
+}
+
+function drawFriends(canvas) {
+    // Robot antennas icon by Delapouite [delapouite.com] under CC BY 3.0
+    // Source: game-icons.net
+    const imageEl = document.createElementNS(SVG_NS, "image");
+    imageEl.setAttribute("href", "robot-antennas.svg");
+    imageEl.setAttribute("height", CELL_SIZE);
+    imageEl.setAttribute("width", CELL_SIZE);
+    imageEl.setAttribute("x", players[0][0] * CELL_SIZE);
+    imageEl.setAttribute("y", players[0][1] * CELL_SIZE);
+    canvas.appendChild(imageEl);
 }
