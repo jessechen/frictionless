@@ -6,6 +6,14 @@ class Friend {
         this.y = y;
         this.name = name;
     }
+
+    horizontalCollisions() {
+        return [[this.x - 1, this.y], [this.x, this.y]];
+    }
+
+    verticalCollisions() {
+        return [[this.x, this.y - 1], [this.x, this.y]];
+    }
 }
 
 const verticalWalls = [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]];
@@ -114,7 +122,7 @@ function moveFriend(name, direction) {
     let newX, newY, collisions;
     switch(direction) {
         case "ArrowUp":
-            collisions = otherFriends.map(horizontalCollisions).toArray().flat();
+            collisions = otherFriends.map((f) => f.horizontalCollisions()).toArray().flat();
             newY = horizontalWalls.concat(collisions)
                 .filter((wall) => wall[0] === friend.x)
                 .filter((wall) => wall[1] <= friend.y)
@@ -124,7 +132,7 @@ function moveFriend(name, direction) {
             friend.y = newY || 0;
             break;
         case "ArrowRight":
-            collisions = otherFriends.map(verticalCollisions).toArray().flat();
+            collisions = otherFriends.map((f) => f.verticalCollisions()).toArray().flat();
             newX = verticalWalls.concat(collisions)
                 .filter((wall) => wall[1] === friend.y)
                 .filter((wall) => wall[0] > friend.x)
@@ -135,7 +143,7 @@ function moveFriend(name, direction) {
             friend.x = newX - 1;
             break;
         case "ArrowDown":
-            collisions = otherFriends.map(horizontalCollisions).toArray().flat();
+            collisions = otherFriends.map((f) => f.horizontalCollisions()).toArray().flat();
             newY = horizontalWalls.concat(collisions)
                 .filter((wall) => wall[0] === friend.x)
                 .filter((wall) => wall[1] > friend.y)
@@ -146,7 +154,7 @@ function moveFriend(name, direction) {
             friend.y = newY - 1;
             break;
         case "ArrowLeft":
-            collisions = otherFriends.map(verticalCollisions).toArray().flat();
+            collisions = otherFriends.map((f) => f.verticalCollisions()).toArray().flat();
             newX = verticalWalls.concat(collisions)
                 .filter((wall) => wall[1] === friend.y)
                 .filter((wall) => wall[0] <= friend.x)
@@ -156,12 +164,4 @@ function moveFriend(name, direction) {
             friend.x = newX || 0;
             break;
     }
-}
-
-function horizontalCollisions(entity) {
-    return [[entity.x - 1, entity.y], [entity.x, entity.y]];
-}
-
-function verticalCollisions(entity) {
-    return [[entity.x, entity.y - 1], [entity.x, entity.y]];
 }
