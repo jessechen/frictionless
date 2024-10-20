@@ -16,7 +16,7 @@ const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
 let friends = new Map();
-friends.set("red-friend", new Friend(2, 2, "red-friend"))
+friends.set("ally", new Friend(2, 2, "ally"))
 
 function init() {
     const canvas = document.getElementById("content");
@@ -72,15 +72,14 @@ function drawGoals(canvas) {
 }
 
 function drawFriends(canvas) {
-    // Robot antennas icon by Delapouite [delapouite.com] under CC BY 3.0
-    // Source: game-icons.net
+    // Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
     const imageEl = document.createElementNS(SVG_NS, "image");
-    imageEl.setAttribute("href", "robot-antennas.svg");
+    imageEl.setAttribute("href", "static/alligator.png");
     imageEl.setAttribute("height", CELL_SIZE);
     imageEl.setAttribute("width", CELL_SIZE);
-    imageEl.setAttribute("x", friends.get("red-friend").x * CELL_SIZE);
-    imageEl.setAttribute("y", friends.get("red-friend").y * CELL_SIZE);
-    imageEl.setAttribute("id", friends.get("red-friend").name);
+    imageEl.setAttribute("x", friends.get("ally").x * CELL_SIZE);
+    imageEl.setAttribute("y", friends.get("ally").y * CELL_SIZE);
+    imageEl.setAttribute("id", friends.get("ally").name);
     imageEl.setAttribute("class", "friend");
     canvas.appendChild(imageEl);
     return imageEl;
@@ -92,10 +91,10 @@ function handleKeydown(evt) {
         case "ArrowRight":
         case "ArrowDown":
         case "ArrowLeft":
-            moveFriend("red-friend", evt.key);
-            const friendEl = document.getElementById(friends.get("red-friend").name);
-            friendEl.setAttribute("x", friends.get("red-friend").x * CELL_SIZE);
-            friendEl.setAttribute("y", friends.get("red-friend").y * CELL_SIZE);
+            moveFriend("ally", evt.key);
+            const friendEl = document.getElementById(friends.get("ally").name);
+            friendEl.setAttribute("x", friends.get("ally").x * CELL_SIZE);
+            friendEl.setAttribute("y", friends.get("ally").y * CELL_SIZE);
             break;
     }
 }
