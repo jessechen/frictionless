@@ -1,15 +1,13 @@
 # Frictionless Friends
 
-## A starter project template
+## Ice physics for everyone!
 
-One sentence of background information goes here.
+A puzzle generator based on the rule set for the out-of-print board game Ricochet Robots (1999).
 
 Production
 ----------
 
-TBDeployed
-
-~~[GitHub Pages](https://jessechen.github.io/frictionless/)~~
+[GitHub Pages](https://jessechen.github.io/frictionless/)
 
 Prior Art
 ---------
