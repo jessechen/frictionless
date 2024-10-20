@@ -110,10 +110,13 @@ function handleKeydown(evt) {
 
 function moveFriend(name, direction) {
     const friend = friends.get(name);
-    let newX, newY;
+    const otherFriends = friends.values().filter((f) => f.name !== friend.name);
+    let newX, newY, collisions;
     switch(direction) {
         case "ArrowUp":
-            newY = horizontalWalls.filter((wall) => wall[0] === friend.x)
+            collisions = otherFriends.map(horizontalCollisions).toArray().flat();
+            newY = horizontalWalls.concat(collisions)
+                .filter((wall) => wall[0] === friend.x)
                 .filter((wall) => wall[1] <= friend.y)
                 .map((wall) => wall[1])
                 .sort()
@@ -121,7 +124,9 @@ function moveFriend(name, direction) {
             friend.y = newY || 0;
             break;
         case "ArrowRight":
-            newX = verticalWalls.filter((wall) => wall[1] === friend.y)
+            collisions = otherFriends.map(verticalCollisions).toArray().flat();
+            newX = verticalWalls.concat(collisions)
+                .filter((wall) => wall[1] === friend.y)
                 .filter((wall) => wall[0] > friend.x)
                 .map((wall) => wall[0])
                 .sort()
@@ -130,7 +135,9 @@ function moveFriend(name, direction) {
             friend.x = newX - 1;
             break;
         case "ArrowDown":
-            newY = horizontalWalls.filter((wall) => wall[0] === friend.x)
+            collisions = otherFriends.map(horizontalCollisions).toArray().flat();
+            newY = horizontalWalls.concat(collisions)
+                .filter((wall) => wall[0] === friend.x)
                 .filter((wall) => wall[1] > friend.y)
                 .map((wall) => wall[1])
                 .sort()
@@ -139,7 +146,9 @@ function moveFriend(name, direction) {
             friend.y = newY - 1;
             break;
         case "ArrowLeft":
-            newX = verticalWalls.filter((wall) => wall[1] === friend.y)
+            collisions = otherFriends.map(verticalCollisions).toArray().flat();
+            newX = verticalWalls.concat(collisions)
+                .filter((wall) => wall[1] === friend.y)
                 .filter((wall) => wall[0] <= friend.x)
                 .map((wall) => wall[0])
                 .sort()
@@ -147,4 +156,12 @@ function moveFriend(name, direction) {
             friend.x = newX || 0;
             break;
     }
+}
+
+function horizontalCollisions(entity) {
+    return [[entity.x - 1, entity.y], [entity.x, entity.y]];
+}
+
+function verticalCollisions(entity) {
+    return [[entity.x, entity.y - 1], [entity.x, entity.y]];
 }
