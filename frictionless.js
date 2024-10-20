@@ -17,6 +17,9 @@ const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
 let friends = new Map();
 friends.set("ally", new Friend(2, 2, "ally"))
+friends.set("sal", new Friend(3, 3, "sal"))
+friends.set("doug", new Friend(4, 4, "doug"))
+friends.set("frida", new Friend(5, 5, "frida"))
 
 function init() {
     const canvas = document.getElementById("content");
@@ -73,15 +76,21 @@ function drawGoals(canvas) {
 
 function drawFriends(canvas) {
     // Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
+    canvas.appendChild(drawFriend("static/alligator.png", "ally"));
+    canvas.appendChild(drawFriend("static/squirrel.png", "sal"));
+    canvas.appendChild(drawFriend("static/duck.png", "doug"));
+    canvas.appendChild(drawFriend("static/frog.png", "frida"));
+}
+
+function drawFriend(image, name) {
     const imageEl = document.createElementNS(SVG_NS, "image");
-    imageEl.setAttribute("href", "static/alligator.png");
+    imageEl.setAttribute("href", image);
     imageEl.setAttribute("height", CELL_SIZE);
     imageEl.setAttribute("width", CELL_SIZE);
-    imageEl.setAttribute("x", friends.get("ally").x * CELL_SIZE);
-    imageEl.setAttribute("y", friends.get("ally").y * CELL_SIZE);
-    imageEl.setAttribute("id", friends.get("ally").name);
+    imageEl.setAttribute("x", friends.get(name).x * CELL_SIZE);
+    imageEl.setAttribute("y", friends.get(name).y * CELL_SIZE);
+    imageEl.setAttribute("id", friends.get(name).name);
     imageEl.setAttribute("class", "friend");
-    canvas.appendChild(imageEl);
     return imageEl;
 }
 
