@@ -1,10 +1,12 @@
 document.addEventListener("DOMContentLoaded", init);
 
 class Friend {
-    constructor(x, y, name) {
+    constructor(name, asset, color, x, y) {
+        this.name = name;
+        this.asset = asset;
+        this.color = color;
         this.x = x;
         this.y = y;
-        this.name = name;
     }
 
     horizontalCollisions() {
@@ -24,10 +26,11 @@ const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
 let friends = new Map();
-friends.set("ally", new Friend(2, 2, "ally"))
-friends.set("sal", new Friend(3, 3, "sal"))
-friends.set("doug", new Friend(4, 4, "doug"))
-friends.set("frida", new Friend(5, 5, "frida"))
+friends.set("allie", new Friend("allie", "static/alligator.png", "#e4c1f9", 2, 2))
+friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", 3, 3))
+friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", 4, 4))
+friends.set("frida", new Friend("frida", "static/frog.png", "#a9def9", 5, 5))
+// the 5th color in the pallette is #ff99c8
 
 function init() {
     const canvas = document.getElementById("content");
@@ -84,15 +87,15 @@ function drawGoals(canvas) {
 
 function drawFriends(canvas) {
     // Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
-    canvas.appendChild(drawFriend("static/alligator.png", "ally"));
-    canvas.appendChild(drawFriend("static/squirrel.png", "sal"));
-    canvas.appendChild(drawFriend("static/duck.png", "doug"));
-    canvas.appendChild(drawFriend("static/frog.png", "frida"));
+    canvas.appendChild(drawFriend("allie"));
+    canvas.appendChild(drawFriend("saul"));
+    canvas.appendChild(drawFriend("doug"));
+    canvas.appendChild(drawFriend("frida"));
 }
 
-function drawFriend(image, name) {
+function drawFriend(name) {
     const imageEl = document.createElementNS(SVG_NS, "image");
-    imageEl.setAttribute("href", image);
+    imageEl.setAttribute("href", friends.get(name).asset);
     imageEl.setAttribute("height", CELL_SIZE);
     imageEl.setAttribute("width", CELL_SIZE);
     imageEl.setAttribute("x", friends.get(name).x * CELL_SIZE);
@@ -108,10 +111,10 @@ function handleKeydown(evt) {
         case "ArrowRight":
         case "ArrowDown":
         case "ArrowLeft":
-            moveFriend("ally", evt.key);
-            const friendEl = document.getElementById(friends.get("ally").name);
-            friendEl.setAttribute("x", friends.get("ally").x * CELL_SIZE);
-            friendEl.setAttribute("y", friends.get("ally").y * CELL_SIZE);
+            moveFriend("allie", evt.key);
+            const friendEl = document.getElementById(friends.get("allie").name);
+            friendEl.setAttribute("x", friends.get("allie").x * CELL_SIZE);
+            friendEl.setAttribute("y", friends.get("allie").y * CELL_SIZE);
             break;
     }
 }
