@@ -37,8 +37,8 @@ function init() {
     const canvas = document.getElementById("content");
     drawGrid(canvas);
     drawGoals(canvas);
-    drawWalls(canvas);
     drawFriends(canvas);
+    drawWalls(canvas);
     document.addEventListener("keydown", handleKeydown);
 }
 
@@ -103,7 +103,7 @@ function drawFriend(name) {
     backgroundEl.setAttribute("width", CELL_SIZE);
     backgroundEl.setAttribute("x", friend.x * CELL_SIZE);
     backgroundEl.setAttribute("y", friend.y * CELL_SIZE);
-    backgroundEl.setAttribute("stroke", "none");
+    backgroundEl.setAttribute("stroke", "#222");
     backgroundEl.setAttribute("fill", friend.color);
     backgroundEl.setAttribute("class", `friend ${friend.name}`);
     groupEl.appendChild(backgroundEl);
