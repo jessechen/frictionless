@@ -8,11 +8,11 @@ class Friend {
     }
 
     horizontalCollisions() {
-        return [[this.x - 1, this.y], [this.x, this.y]];
+        return [[this.x, this.y], [this.x, this.y + 1]];
     }
 
     verticalCollisions() {
-        return [[this.x, this.y - 1], [this.x, this.y]];
+        return [[this.x, this.y], [this.x + 1, this.y]];
     }
 }
 
