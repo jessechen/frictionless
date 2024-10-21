@@ -25,7 +25,8 @@ const GRID_SIZE = 8;
 const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
-let friends = new Map();
+
+const friends = new Map();
 friends.set("allie", new Friend("allie", "static/alligator.png", "#e4c1f9", 2, 2))
 friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", 3, 3))
 friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", 4, 4))
@@ -94,15 +95,28 @@ function drawFriends(canvas) {
 }
 
 function drawFriend(name) {
+    const friend = friends.get(name);
+
+    const groupEl = document.createElementNS(SVG_NS, "g");
+    const backgroundEl = document.createElementNS(SVG_NS, "rect");
+    backgroundEl.setAttribute("height", CELL_SIZE);
+    backgroundEl.setAttribute("width", CELL_SIZE);
+    backgroundEl.setAttribute("x", friend.x * CELL_SIZE);
+    backgroundEl.setAttribute("y", friend.y * CELL_SIZE);
+    backgroundEl.setAttribute("stroke", "none");
+    backgroundEl.setAttribute("fill", friend.color);
+    backgroundEl.setAttribute("class", `friend ${friend.name}`);
+    groupEl.appendChild(backgroundEl);
     const imageEl = document.createElementNS(SVG_NS, "image");
-    imageEl.setAttribute("href", friends.get(name).asset);
     imageEl.setAttribute("height", CELL_SIZE);
     imageEl.setAttribute("width", CELL_SIZE);
-    imageEl.setAttribute("x", friends.get(name).x * CELL_SIZE);
-    imageEl.setAttribute("y", friends.get(name).y * CELL_SIZE);
-    imageEl.setAttribute("id", friends.get(name).name);
-    imageEl.setAttribute("class", "friend");
-    return imageEl;
+    imageEl.setAttribute("x", friend.x * CELL_SIZE);
+    imageEl.setAttribute("y", friend.y * CELL_SIZE);
+    imageEl.setAttribute("id", friend.name);
+    imageEl.setAttribute("href", friend.asset);
+    imageEl.setAttribute("class", `friend ${friend.name}`);
+    groupEl.appendChild(imageEl);
+    return groupEl;
 }
 
 function handleKeydown(evt) {
@@ -112,9 +126,11 @@ function handleKeydown(evt) {
         case "ArrowDown":
         case "ArrowLeft":
             moveFriend("allie", evt.key);
-            const friendEl = document.getElementById(friends.get("allie").name);
-            friendEl.setAttribute("x", friends.get("allie").x * CELL_SIZE);
-            friendEl.setAttribute("y", friends.get("allie").y * CELL_SIZE);
+            const friendEls = document.getElementsByClassName(friends.get("allie").name);
+            for (el of friendEls) {
+                el.setAttribute("x", friends.get("allie").x * CELL_SIZE);
+                el.setAttribute("y", friends.get("allie").y * CELL_SIZE);
+            }
             break;
     }
 }
