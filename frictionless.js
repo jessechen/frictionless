@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", init);
 
 class Friend {
-    constructor(name, asset, color, x, y) {
+    constructor(name, asset, color, accent, x, y) {
         this.name = name;
         this.asset = asset;
         this.color = color;
+        this.accent = accent;
         this.x = x;
         this.y = y;
     }
@@ -26,12 +27,13 @@ const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
 
+// Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
 const friends = new Map();
-friends.set("allie", new Friend("allie", "static/alligator.png", "#e4c1f9", 2, 2))
-friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", 3, 3))
-friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", 4, 4))
-friends.set("frida", new Friend("frida", "static/frog.png", "#a9def9", 5, 5))
-// the 5th color in the pallette is #ff99c8
+friends.set("allie", new Friend("allie", "static/alligator.png", "#e4c1f9", "#c370f3", 2, 2))
+friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", "#f9ec66", 3, 3))
+friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", "#84e7aa", 4, 4))
+friends.set("frida", new Friend("frida", "static/frog.png", "#a9def9", "#59c1f5", 5, 5))
+// the 5th color in the pallette is #ff99c8 / #ff479d
 
 function init() {
     const canvas = document.getElementById("content");
@@ -81,13 +83,12 @@ function drawGoals(canvas) {
         goalEl.setAttribute("width", CELL_SIZE);
         goalEl.setAttribute("height", CELL_SIZE);
         goalEl.setAttribute("stroke", "none");
-        goalEl.setAttribute("fill", "#f88");
+        goalEl.setAttribute("fill", "#ff99c8");
         canvas.appendChild(goalEl);
     }
 }
 
 function drawFriends(canvas) {
-    // Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
     canvas.appendChild(drawFriend("allie"));
     canvas.appendChild(drawFriend("saul"));
     canvas.appendChild(drawFriend("doug"));
@@ -103,7 +104,8 @@ function drawFriend(name) {
     backgroundEl.setAttribute("width", CELL_SIZE);
     backgroundEl.setAttribute("x", friend.x * CELL_SIZE);
     backgroundEl.setAttribute("y", friend.y * CELL_SIZE);
-    backgroundEl.setAttribute("stroke", "#222");
+    backgroundEl.setAttribute("stroke", friend.accent);
+    backgroundEl.setAttribute("stroke-width", "10");
     backgroundEl.setAttribute("fill", friend.color);
     backgroundEl.setAttribute("class", `friend ${friend.name}`);
     groupEl.appendChild(backgroundEl);
