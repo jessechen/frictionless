@@ -18,6 +18,14 @@ class Friend {
         return [[this.x, this.y], [this.x + 1, this.y]];
     }
 
+    updatePosition() {
+        const friendEls = document.getElementsByClassName(this.name);
+        for (let el of friendEls) {
+            el.setAttribute("x", this.x * CELL_SIZE);
+            el.setAttribute("y", this.y * CELL_SIZE);
+        }
+    }
+
     visuallySelect() {
         const backgroundEl = document.querySelector(`.background.${this.name}`);
         backgroundEl.setAttribute("stroke", this.accent);
@@ -53,6 +61,7 @@ function init() {
     drawGrid(canvas);
     drawGoals(canvas);
     drawFriends(canvas);
+    selectedFriend.visuallySelect();
     drawWalls(canvas);
     document.addEventListener("keydown", handleKeydown);
 }
@@ -136,12 +145,7 @@ function handleKeydown(evt) {
         case "ArrowRight":
         case "ArrowDown":
         case "ArrowLeft":
-            moveFriend("allie", evt.key);
-            const friendEls = document.getElementsByClassName(friends.get("allie").name);
-            for (el of friendEls) {
-                el.setAttribute("x", friends.get("allie").x * CELL_SIZE);
-                el.setAttribute("y", friends.get("allie").y * CELL_SIZE);
-            }
+            moveSelectedFriend(evt.key);
             break;
         case "a":
             selectFriend(friends.get("allie"));
@@ -158,8 +162,8 @@ function handleKeydown(evt) {
     }
 }
 
-function moveFriend(name, direction) {
-    const friend = friends.get(name);
+function moveSelectedFriend(direction) {
+    const friend = selectedFriend;
     const otherFriends = friends.values().filter((f) => f.name !== friend.name);
     let newX, newY, collisions;
     switch(direction) {
@@ -206,6 +210,7 @@ function moveFriend(name, direction) {
             friend.x = newX || 0;
             break;
     }
+    friend.updatePosition();
 }
 
 function selectFriend(friend) {
