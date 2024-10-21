@@ -46,6 +46,7 @@ friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", "#f9ec6
 friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", "#84e7aa", 4, 4))
 friends.set("frida", new Friend("frida", "static/frog.png", "#a9def9", "#59c1f5", 5, 5))
 // the 5th color in the pallette is #ff99c8 / #ff479d
+let selectedFriend = friends.get("allie");
 
 function init() {
     const canvas = document.getElementById("content");
@@ -143,20 +144,16 @@ function handleKeydown(evt) {
             }
             break;
         case "a":
-            friends.values().forEach((f) => f.visuallyDeselect());
-            friends.get("allie").visuallySelect();
+            selectFriend(friends.get("allie"));
             break;
         case "s":
-            friends.values().forEach((f) => f.visuallyDeselect());
-            friends.get("saul").visuallySelect();
+            selectFriend(friends.get("saul"));
             break;
         case "d":
-            friends.values().forEach((f) => f.visuallyDeselect());
-            friends.get("doug").visuallySelect();
+            selectFriend(friends.get("doug"));
             break;
         case "f":
-            friends.values().forEach((f) => f.visuallyDeselect());
-            friends.get("frida").visuallySelect();
+            selectFriend(friends.get("frida"));
             break;
     }
 }
@@ -209,4 +206,10 @@ function moveFriend(name, direction) {
             friend.x = newX || 0;
             break;
     }
+}
+
+function selectFriend(friend) {
+    selectedFriend.visuallyDeselect();
+    friend.visuallySelect();
+    selectedFriend = friend;
 }
