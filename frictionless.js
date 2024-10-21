@@ -17,6 +17,18 @@ class Friend {
     verticalCollisions() {
         return [[this.x, this.y], [this.x + 1, this.y]];
     }
+
+    visuallySelect() {
+        const backgroundEl = document.querySelector(`.background.${this.name}`);
+        backgroundEl.setAttribute("stroke", this.accent);
+        backgroundEl.setAttribute("stroke-width", "10");
+    }
+
+    visuallyDeselect() {
+        const backgroundEl = document.querySelector(`.background.${this.name}`);
+        backgroundEl.setAttribute("stroke", "#222");
+        backgroundEl.setAttribute("stroke-width", "1");
+    }
 }
 
 const verticalWalls = [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]];
@@ -89,26 +101,22 @@ function drawGoals(canvas) {
 }
 
 function drawFriends(canvas) {
-    canvas.appendChild(drawFriend("allie"));
-    canvas.appendChild(drawFriend("saul"));
-    canvas.appendChild(drawFriend("doug"));
-    canvas.appendChild(drawFriend("frida"));
+    for (let friend of friends.values()) {
+        drawFriend(canvas, friend);
+    }
 }
 
-function drawFriend(name) {
-    const friend = friends.get(name);
-
-    const groupEl = document.createElementNS(SVG_NS, "g");
+function drawFriend(canvas, friend) {
+    // I had these in a group but it seemed to add overhead and not help
+    // much since height, width, x, and y are not inheritable attributes
     const backgroundEl = document.createElementNS(SVG_NS, "rect");
     backgroundEl.setAttribute("height", CELL_SIZE);
     backgroundEl.setAttribute("width", CELL_SIZE);
     backgroundEl.setAttribute("x", friend.x * CELL_SIZE);
     backgroundEl.setAttribute("y", friend.y * CELL_SIZE);
-    backgroundEl.setAttribute("stroke", friend.accent);
-    backgroundEl.setAttribute("stroke-width", "10");
+    backgroundEl.setAttribute("stroke", "#222");
     backgroundEl.setAttribute("fill", friend.color);
-    backgroundEl.setAttribute("class", `friend ${friend.name}`);
-    groupEl.appendChild(backgroundEl);
+    backgroundEl.setAttribute("class", `background friend ${friend.name}`);
     const imageEl = document.createElementNS(SVG_NS, "image");
     imageEl.setAttribute("height", CELL_SIZE);
     imageEl.setAttribute("width", CELL_SIZE);
@@ -116,9 +124,9 @@ function drawFriend(name) {
     imageEl.setAttribute("y", friend.y * CELL_SIZE);
     imageEl.setAttribute("id", friend.name);
     imageEl.setAttribute("href", friend.asset);
-    imageEl.setAttribute("class", `friend ${friend.name}`);
-    groupEl.appendChild(imageEl);
-    return groupEl;
+    imageEl.setAttribute("class", `image friend ${friend.name}`);
+    canvas.appendChild(backgroundEl);
+    canvas.appendChild(imageEl);
 }
 
 function handleKeydown(evt) {
@@ -133,6 +141,22 @@ function handleKeydown(evt) {
                 el.setAttribute("x", friends.get("allie").x * CELL_SIZE);
                 el.setAttribute("y", friends.get("allie").y * CELL_SIZE);
             }
+            break;
+        case "a":
+            friends.values().forEach((f) => f.visuallyDeselect());
+            friends.get("allie").visuallySelect();
+            break;
+        case "s":
+            friends.values().forEach((f) => f.visuallyDeselect());
+            friends.get("saul").visuallySelect();
+            break;
+        case "d":
+            friends.values().forEach((f) => f.visuallyDeselect());
+            friends.get("doug").visuallySelect();
+            break;
+        case "f":
+            friends.values().forEach((f) => f.visuallyDeselect());
+            friends.get("frida").visuallySelect();
             break;
     }
 }
