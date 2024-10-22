@@ -39,13 +39,31 @@ class Friend {
     }
 }
 
-const verticalWalls = [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]];
-const horizontalWalls = [[0, 6], [1, 2], [3, 7], [6, 2], [6, 5], [7, 7]];
-const goals = [[6, 1], [1, 2], [6, 5], [3, 6]];
+class Board {
+    constructor(props) {
+        this.id = props.id;
+        this.verticalWalls = props.verticalWalls;
+        this.horizontalWalls = props.horizontalWalls;
+        this.goals = props.goals;
+    }
+}
+
 const GRID_SIZE = 8;
 const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
+
+const boards = new Map();
+boards.set("eins", new Board({
+    id: "eins",
+    verticalWalls: [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]],
+    horizontalWalls: [[0, 6], [1, 2], [3, 7], [6, 2], [6, 5], [7, 7]],
+    goals: [[6, 1], [1, 2], [6, 5], [3, 6]],
+}));
+
+let verticalWalls = [];
+let horizontalWalls = [];
+let goals = [];
 
 // Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
 const friends = new Map();
@@ -57,6 +75,8 @@ friends.set("frida", new Friend("frida", "static/fox.png", "#a9def9", "#59c1f5",
 let selectedFriend = friends.get("allie");
 
 function init() {
+    pickBoards();
+
     const canvas = document.getElementById("content");
     drawGrid(canvas);
     drawGoals(canvas);
@@ -64,6 +84,13 @@ function init() {
     selectedFriend.visuallySelect();
     drawWalls(canvas);
     document.addEventListener("keydown", handleKeydown);
+}
+
+function pickBoards() {
+    const board = boards.get("eins");
+    verticalWalls = board.verticalWalls;
+    horizontalWalls = board.horizontalWalls;
+    goals = board.goals;
 }
 
 function drawGrid(canvas) {
