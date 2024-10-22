@@ -52,7 +52,7 @@ const friends = new Map();
 friends.set("allie", new Friend("allie", "static/alligator.png", "#e4c1f9", "#c370f3", 2, 2))
 friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", "#f9ec66", 3, 3))
 friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", "#84e7aa", 4, 4))
-friends.set("frida", new Friend("frida", "static/frog.png", "#a9def9", "#59c1f5", 5, 5))
+friends.set("frida", new Friend("frida", "static/fox.png", "#a9def9", "#59c1f5", 5, 5))
 // the 5th color in the pallette is #ff99c8 / #ff479d
 let selectedFriend = friends.get("allie");
 
