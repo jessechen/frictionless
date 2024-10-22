@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", init);
 
 class Friend {
-    constructor(name, asset, color, accent, x, y) {
-        this.name = name;
-        this.asset = asset;
-        this.color = color;
-        this.accent = accent;
-        this.x = x;
-        this.y = y;
+    constructor(props) {
+        this.name = props.name;
+        this.asset = props.asset;
+        this.color = props.color;
+        this.accent = props.accent;
+        this.x = props.x;
+        this.y = props.y;
     }
 
     horizontalCollisions() {
@@ -67,10 +67,38 @@ let goals = [];
 
 // Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
 const friends = new Map();
-friends.set("allie", new Friend("allie", "static/alligator.png", "#e4c1f9", "#c370f3", 2, 2))
-friends.set("saul", new Friend("saul", "static/squirrel.png", "#fcf6bd", "#f9ec66", 3, 3))
-friends.set("doug", new Friend("doug", "static/duck.png", "#d0f4de", "#84e7aa", 4, 4))
-friends.set("frida", new Friend("frida", "static/fox.png", "#a9def9", "#59c1f5", 5, 5))
+friends.set("allie", new Friend({
+    name: "allie",
+    asset: "static/alligator.png",
+    color: "#e4c1f9",
+    accent: "#c370f3",
+    x: 2,
+    y: 2,
+}));
+friends.set("saul", new Friend({
+    name: "saul",
+    asset: "static/squirrel.png",
+    color: "#fcf6bd",
+    accent: "#f9ec66",
+    x: 3,
+    y: 3,
+}));
+friends.set("doug", new Friend({
+    name: "doug",
+    asset: "static/duck.png",
+    color: "#d0f4de",
+    accent: "#84e7aa",
+    x: 4,
+    y: 4,
+}));
+friends.set("frida", new Friend({
+    name: "frida",
+    asset: "static/fox.png",
+    color: "#a9def9",
+    accent: "#59c1f5",
+    x: 5,
+    y: 5,
+}));
 // the 5th color in the pallette is #ff99c8 / #ff479d
 let selectedFriend = friends.get("allie");
 
