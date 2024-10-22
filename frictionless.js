@@ -58,19 +58,19 @@ boards.set("eins", new Board({
     id: "eins",
     verticalWalls: [[2, 0], [4, 1], [2, 2], [7, 3], [3, 6], [7, 7]],
     horizontalWalls: [[0, 6], [1, 2], [3, 7], [4, 1], [6, 4], [7, 7]],
-    goals: [[4, 1], [1, 2], [6, 3], [3, 6]],
+    goals: {allie: [4, 1], doug: [1, 2], saul: [6, 3], frida: [3, 6]},
 }));
 boards.set("zwei", new Board({
     id: "zwei",
     verticalWalls: [[4, 0], [6, 1], [1, 2], [6, 4], [3, 6], [7, 7]],
     horizontalWalls: [[0, 4], [1, 3], [2, 6], [5, 2], [6, 4], [7, 7]],
-    goals: [[5, 1], [1, 2], [6, 4], [2, 6]],
+    goals: {frida: [5, 1], allie: [1, 2], saul: [6, 4], doug: [2, 6]},
 }));
 boards.set("un", new Board({
     id: "un",
     verticalWalls: [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]],
     horizontalWalls: [[0, 6], [1, 2], [3, 7], [6, 2], [6, 5], [7, 7]],
-    goals: [[6, 1], [1, 2], [6, 5], [3, 6]],
+    goals: {allie: [6, 1], saul: [1, 2], doug: [6, 5], frida: [3, 6]},
 }));
 
 let verticalWalls = [];
@@ -165,7 +165,7 @@ function drawWalls(canvas) {
 }
 
 function drawGoals(canvas) {
-    for (let goal of goals) {
+    for (let goal of Object.values(goals)) {
         const goalEl = document.createElementNS(SVG_NS, "rect");
         goalEl.setAttribute("x", goal[0] * CELL_SIZE);
         goalEl.setAttribute("y", goal[1] * CELL_SIZE);
