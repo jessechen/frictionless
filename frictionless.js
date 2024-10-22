@@ -178,8 +178,8 @@ function pickBoards() {
 }
 
 function transformBoard(board, rotations) {
-    board.verticalWalls = board.verticalWalls.map((wall) => [wall[0]+8, [wall[1]]]);
-    board.horizontalWalls = board.horizontalWalls.map((wall) => [wall[0]+8, [wall[1]]]);
+    board.verticalWalls = board.verticalWalls.map((wall) => [wall[0]+8, wall[1]]);
+    board.horizontalWalls = board.horizontalWalls.map((wall) => [wall[0]+8, wall[1]]);
     board.goals = Object.fromEntries(Object.entries(board.goals));
     return board;
 }
