@@ -48,7 +48,7 @@ class Board {
     }
 }
 
-const GRID_SIZE = 8;
+const GRID_SIZE = 16;
 const RESOLUTION = 1024;
 const CELL_SIZE = RESOLUTION / GRID_SIZE;
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -103,11 +103,11 @@ boards.set("cat", new Board({
     goals: {allie: [2, 1], doug: [1, 3], saul: [6, 4], frida: [5, 6], asdf: [3, 7]},
 }));
 
-let verticalWalls = [];
-let horizontalWalls = [];
-let goals = [];
+const verticalWalls = [];
+const horizontalWalls = [];
+const goals = new Map();
 
-// Crocodile, Squirrel, Duck, and Fox icons created by iconixar - Flaticon    
+// Crocodile, Squirrel, Duck, and Fox icons created by iconixar - Flaticon
 const friends = new Map();
 friends.set("allie", new Friend({
     name: "allie",
@@ -157,10 +157,31 @@ function init() {
 }
 
 function pickBoards() {
-    const board = boards.get("cat");
-    verticalWalls = board.verticalWalls;
-    horizontalWalls = board.horizontalWalls;
-    goals = board.goals;
+    goals.set("allie", []);
+    goals.set("saul", []);
+    goals.set("doug", []);
+    goals.set("frida", []);
+    goals.set("asdf", []);
+
+    const board = boards.get("eins");
+    verticalWalls.push(...board.verticalWalls);
+    horizontalWalls.push(...board.horizontalWalls);
+    for(let [name, coordinates] of Object.entries(board.goals)) {
+        goals.get(name).push(coordinates);
+    }
+    const board2 = transformBoard(boards.get("zwei"));
+    verticalWalls.push(...board2.verticalWalls);
+    horizontalWalls.push(...board2.horizontalWalls);
+    for(let [name, coordinates] of Object.entries(board2.goals)) {
+        goals.get(name).push(coordinates);
+    }
+}
+
+function transformBoard(board, rotations) {
+    board.verticalWalls = board.verticalWalls.map((wall) => [wall[0]+8, [wall[1]]]);
+    board.horizontalWalls = board.horizontalWalls.map((wall) => [wall[0]+8, [wall[1]]]);
+    board.goals = Object.fromEntries(Object.entries(board.goals));
+    return board;
 }
 
 function drawGrid(canvas) {
@@ -195,15 +216,17 @@ function drawWalls(canvas) {
 }
 
 function drawGoals(canvas) {
-    for (let goal of Object.values(goals)) {
-        const goalEl = document.createElementNS(SVG_NS, "rect");
-        goalEl.setAttribute("x", goal[0] * CELL_SIZE);
-        goalEl.setAttribute("y", goal[1] * CELL_SIZE);
-        goalEl.setAttribute("width", CELL_SIZE);
-        goalEl.setAttribute("height", CELL_SIZE);
-        goalEl.setAttribute("stroke", "none");
-        goalEl.setAttribute("fill", "#ff99c8");
-        canvas.appendChild(goalEl);
+    for (let friendGoals of goals.values()) {
+        for (let goal of friendGoals) {
+            const goalEl = document.createElementNS(SVG_NS, "rect");
+            goalEl.setAttribute("x", goal[0] * CELL_SIZE);
+            goalEl.setAttribute("y", goal[1] * CELL_SIZE);
+            goalEl.setAttribute("width", CELL_SIZE);
+            goalEl.setAttribute("height", CELL_SIZE);
+            goalEl.setAttribute("stroke", "none");
+            goalEl.setAttribute("fill", "#ff99c8");
+            canvas.appendChild(goalEl);
+        }
     }
 }
 
