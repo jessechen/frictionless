@@ -82,7 +82,25 @@ boards.set("un", new Board({
     id: "un",
     verticalWalls: [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]],
     horizontalWalls: [[0, 6], [1, 2], [3, 7], [6, 2], [6, 5], [7, 7]],
-    goals: {allie: [6, 1], saul: [1, 2], doug: [6, 5], frida: [3, 6]},
+    goals: {saul: [6, 1], doug: [1, 2], frida: [6, 5], allie: [3, 6]},
+}));
+boards.set("deux", new Board({
+    id: "deux",
+    verticalWalls: [[5, 0], [2, 1], [6, 3], [5, 5], [2, 6], [7, 7]],
+    horizontalWalls: [[0, 5], [1, 7], [2, 1], [4, 5], [6, 4], [7, 7]],
+    goals: {saul: [2, 1], frida: [6, 3], allie: [4, 5], doug: [1, 6]},
+}));
+boards.set("trois", new Board({
+    id: "trois",
+    verticalWalls: [[4, 0], [1, 1], [7, 2], [3, 4], [7, 5], [7, 7]],
+    horizontalWalls: [[0, 6], [1, 2], [2, 5], [6, 2], [7, 5], [7, 7]],
+    goals: {allie: [1, 1], doug: [6, 2], frida: [2, 4], saul: [7, 5]},
+}));
+boards.set("cat", new Board({
+    id: "cat",
+    verticalWalls: [[5, 0], [3, 1], [1, 3], [6, 4], [6, 6], [4, 7], [7, 7]],
+    horizontalWalls: [[0, 5], [1, 4], [2, 2], [3, 8], [5, 6], [6, 4], [7, 7]],
+    goals: {allie: [2, 1], doug: [1, 3], saul: [6, 4], frida: [5, 6], asdf: [3, 7]},
 }));
 
 let verticalWalls = [];
@@ -139,7 +157,7 @@ function init() {
 }
 
 function pickBoards() {
-    const board = boards.get("vier");
+    const board = boards.get("cat");
     verticalWalls = board.verticalWalls;
     horizontalWalls = board.horizontalWalls;
     goals = board.goals;
