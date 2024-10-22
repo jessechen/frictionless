@@ -66,6 +66,18 @@ boards.set("zwei", new Board({
     horizontalWalls: [[0, 4], [1, 3], [2, 6], [5, 2], [6, 4], [7, 7]],
     goals: {frida: [5, 1], allie: [1, 2], saul: [6, 4], doug: [2, 6]},
 }));
+boards.set("drei", new Board({
+    id: "drei",
+    verticalWalls: [[4, 0], [6, 2], [3, 4], [7, 5], [1, 6], [7, 7]],
+    horizontalWalls: [[0, 5], [1, 6], [2, 4], [5, 3], [7, 6], [7, 7]],
+    goals: {frida: [5, 2], doug: [2, 4], allie: [7, 5], saul: [1, 6]},
+}));
+boards.set("vier", new Board({
+    id: "vier",
+    verticalWalls: [[4, 0], [6, 1], [2, 3], [5, 4], [3, 5], [8, 5], [7, 7]],
+    horizontalWalls: [[0, 7], [1, 3], [2, 6], [5, 4], [6, 2], [7, 6], [7, 7]],
+    goals: {frida: [6, 1], saul: [1, 3], doug: [5, 4], allie: [2, 5], asdf: [7, 5]},
+}));
 boards.set("un", new Board({
     id: "un",
     verticalWalls: [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]],
@@ -127,7 +139,7 @@ function init() {
 }
 
 function pickBoards() {
-    const board = boards.get("zwei");
+    const board = boards.get("vier");
     verticalWalls = board.verticalWalls;
     horizontalWalls = board.horizontalWalls;
     goals = board.goals;
