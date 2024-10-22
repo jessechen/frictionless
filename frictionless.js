@@ -60,6 +60,12 @@ boards.set("eins", new Board({
     horizontalWalls: [[0, 6], [1, 2], [3, 7], [4, 1], [6, 4], [7, 7]],
     goals: [[4, 1], [1, 2], [6, 3], [3, 6]],
 }));
+boards.set("zwei", new Board({
+    id: "zwei",
+    verticalWalls: [[4, 0], [6, 1], [1, 2], [6, 4], [3, 6], [7, 7]],
+    horizontalWalls: [[0, 4], [1, 3], [2, 6], [5, 2], [6, 4], [7, 7]],
+    goals: [[5, 1], [1, 2], [6, 4], [2, 6]],
+}));
 boards.set("un", new Board({
     id: "un",
     verticalWalls: [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]],
@@ -121,7 +127,7 @@ function init() {
 }
 
 function pickBoards() {
-    const board = boards.get("eins");
+    const board = boards.get("zwei");
     verticalWalls = board.verticalWalls;
     horizontalWalls = board.horizontalWalls;
     goals = board.goals;
