@@ -56,6 +56,12 @@ const SVG_NS = "http://www.w3.org/2000/svg";
 const boards = new Map();
 boards.set("eins", new Board({
     id: "eins",
+    verticalWalls: [[2, 0], [4, 1], [2, 2], [7, 3], [3, 6], [7, 7]],
+    horizontalWalls: [[0, 6], [1, 2], [3, 7], [4, 1], [6, 4], [7, 7]],
+    goals: [[4, 1], [1, 2], [6, 3], [3, 6]],
+}));
+boards.set("un", new Board({
+    id: "un",
     verticalWalls: [[5, 0], [7, 1], [1, 2], [7, 5], [3, 6], [7, 7]],
     horizontalWalls: [[0, 6], [1, 2], [3, 7], [6, 2], [6, 5], [7, 7]],
     goals: [[6, 1], [1, 2], [6, 5], [3, 6]],
@@ -65,7 +71,7 @@ let verticalWalls = [];
 let horizontalWalls = [];
 let goals = [];
 
-// Crocodile, Squirrel, Duck, and Frog icons created by iconixar - Flaticon    
+// Crocodile, Squirrel, Duck, and Fox icons created by iconixar - Flaticon    
 const friends = new Map();
 friends.set("allie", new Friend({
     name: "allie",
