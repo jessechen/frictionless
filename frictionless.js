@@ -181,7 +181,9 @@ function rotateBoard(board, rotations) {
     const newVerticalWalls = board.horizontalWalls.map((wall) => [16-wall[1], wall[0]]);
     board.horizontalWalls = board.verticalWalls.map((wall) => [15-wall[1], wall[0]]);
     board.verticalWalls = newVerticalWalls;
-    // board.goals = Object.fromEntries(Object.entries(board.goals));
+    for (let [name, goal] of board.goals) {
+        board.goals.set(name, [15-goal[1], goal[0]]);
+    }
     return board;
 }
 
