@@ -19,8 +19,7 @@ class Friend {
     }
 
     updatePosition() {
-        const friendEls = document.getElementsByClassName(this.name);
-        for (let el of friendEls) {
+        for (let el of document.getElementsByClassName(this.name)) {
             el.setAttribute("x", this.x * CELL_SIZE);
             el.setAttribute("y", this.y * CELL_SIZE);
         }
@@ -29,13 +28,18 @@ class Friend {
     visuallySelect() {
         const backgroundEl = document.querySelector(`.background.${this.name}`);
         backgroundEl.setAttribute("stroke", this.accent);
-        backgroundEl.setAttribute("stroke-width", "10");
+        backgroundEl.setAttribute("stroke-width", "8");
     }
 
     visuallyDeselect() {
         const backgroundEl = document.querySelector(`.background.${this.name}`);
-        backgroundEl.setAttribute("stroke", "#222");
+        backgroundEl.setAttribute("stroke", "#246");
         backgroundEl.setAttribute("stroke-width", "1");
+    }
+
+    pullToTop() {
+        canvas.appendChild(document.querySelector(`.background.${this.name}`));
+        canvas.appendChild(document.querySelector(`.image.${this.name}`));
     }
 }
 
@@ -198,7 +202,7 @@ function drawGrid() {
     }
     const pathEl = document.createElementNS(SVG_NS, "path");
     pathEl.setAttribute("d", gridPath);
-    pathEl.setAttribute("stroke", "#222");
+    pathEl.setAttribute("stroke", "#246");
     pathEl.setAttribute("fill", "none");
     canvas.appendChild(pathEl);
 }
@@ -213,9 +217,11 @@ function drawWalls() {
     }
     const pathEl = document.createElementNS(SVG_NS, "path");
     pathEl.setAttribute("d", wallPath);
-    pathEl.setAttribute("stroke", "#111");
-    pathEl.setAttribute("stroke-width", "5");
+    pathEl.setAttribute("stroke", "#024");
+    pathEl.setAttribute("stroke-width", "8");
+    pathEl.setAttribute("stroke-linecap", "round");
     pathEl.setAttribute("fill", "none");
+    pathEl.setAttribute("id", "walls");
     canvas.appendChild(pathEl);
 }
 
@@ -248,7 +254,8 @@ function drawFriend(friend) {
     backgroundEl.setAttribute("width", CELL_SIZE);
     backgroundEl.setAttribute("x", friend.x * CELL_SIZE);
     backgroundEl.setAttribute("y", friend.y * CELL_SIZE);
-    backgroundEl.setAttribute("stroke", "#222");
+    backgroundEl.setAttribute("stroke", "#246");
+    backgroundEl.setAttribute("stroke-linejoin", "round");
     backgroundEl.setAttribute("fill", friend.color);
     backgroundEl.setAttribute("class", `background friend ${friend.name}`);
     canvas.appendChild(backgroundEl);
@@ -344,7 +351,8 @@ function selectFriend(friend) {
     selectedFriend = friend;
 
     // z-indices: walls < selected < other friends < goals < grid
-    
+    friend.pullToTop();
+    canvas.appendChild(document.getElementById("walls"));
 }
 
 // Thanks, JavaScript
