@@ -296,7 +296,7 @@ function moveSelectedFriend(direction) {
                 .filter((wall) => wall[0] === friend.x)
                 .filter((wall) => wall[1] <= friend.y)
                 .map((wall) => wall[1])
-                .sort(sortInts)
+                .sort(compareInts)
                 .at(-1);
             friend.y = newY || 0;
             break;
@@ -306,7 +306,7 @@ function moveSelectedFriend(direction) {
                 .filter((wall) => wall[1] === friend.y)
                 .filter((wall) => wall[0] > friend.x)
                 .map((wall) => wall[0])
-                .sort(sortInts)
+                .sort(compareInts)
                 .at(0);
             newX ||= GRID_SIZE;
             friend.x = newX - 1;
@@ -317,7 +317,7 @@ function moveSelectedFriend(direction) {
                 .filter((wall) => wall[0] === friend.x)
                 .filter((wall) => wall[1] > friend.y)
                 .map((wall) => wall[1])
-                .sort(sortInts)
+                .sort(compareInts)
                 .at(0);
             newY ||= GRID_SIZE;
             friend.y = newY - 1;
@@ -328,7 +328,7 @@ function moveSelectedFriend(direction) {
                 .filter((wall) => wall[1] === friend.y)
                 .filter((wall) => wall[0] <= friend.x)
                 .map((wall) => wall[0])
-                .sort(sortInts)
+                .sort(compareInts)
                 .at(-1);
             friend.x = newX || 0;
             break;
@@ -340,8 +340,12 @@ function selectFriend(friend) {
     selectedFriend.visuallyDeselect();
     friend.visuallySelect();
     selectedFriend = friend;
+
+    // z-indices: walls < selected < other friends < goals < grid
+    
 }
 
-function sortInts(a, b) {
+// Thanks, JavaScript
+function compareInts(a, b) {
     return a - b;
 }
