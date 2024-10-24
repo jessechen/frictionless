@@ -151,13 +151,13 @@ let selectedFriend = friends.get("allie");
 
 function init() {
     pickBoards();
-
     canvas = document.getElementById("content");
     drawGrid();
     drawGoals();
     drawFriends();
-    selectedFriend.visuallySelect();
     drawWalls();
+    // Set initial z-indices
+    selectFriend(selectedFriend);
     document.addEventListener("keydown", handleKeydown);
 }
 
