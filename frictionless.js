@@ -180,14 +180,28 @@ function pickBoards() {
     for(let [name, coordinates] of board2.goals) {
         goals.get(name).push(coordinates);
     }
+    const board3 = rotateBoard(boards.get("drei"), 2);
+    verticalWalls.push(...board3.verticalWalls);
+    horizontalWalls.push(...board3.horizontalWalls);
+    for(let [name, coordinates] of board3.goals) {
+        goals.get(name).push(coordinates);
+    }
 }
 
 function rotateBoard(board, rotations) {
-    const newVerticalWalls = board.horizontalWalls.map((wall) => [16-wall[1], wall[0]]);
-    board.horizontalWalls = board.verticalWalls.map((wall) => [15-wall[1], wall[0]]);
-    board.verticalWalls = newVerticalWalls;
-    for (let [name, goal] of board.goals) {
-        board.goals.set(name, [15-goal[1], goal[0]]);
+    if (rotations === 1) {
+        const newVerticalWalls = board.horizontalWalls.map((wall) => [16-wall[1], wall[0]]);
+        board.horizontalWalls = board.verticalWalls.map((wall) => [15-wall[1], wall[0]]);
+        board.verticalWalls = newVerticalWalls;
+        for (let [name, goal] of board.goals) {
+            board.goals.set(name, [15-goal[1], goal[0]]);
+        }
+    } else if (rotations === 2) {
+        board.verticalWalls = board.verticalWalls.map((wall) => [16-wall[0], 15-wall[1]]);
+        board.horizontalWalls = board.horizontalWalls.map((wall) => [15-wall[0], 16-wall[1]]);
+        for (let [name, goal] of board.goals) {
+            board.goals.set(name, [15-goal[0], 15-goal[1]]);
+        }
     }
     return board;
 }
