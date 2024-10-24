@@ -44,7 +44,7 @@ class Board {
         this.id = props.id;
         this.verticalWalls = props.verticalWalls;
         this.horizontalWalls = props.horizontalWalls;
-        this.goals = props.goals;
+        this.goals = new Map(Object.entries(props.goals));
     }
 }
 
@@ -166,23 +166,22 @@ function pickBoards() {
     const board = boards.get("eins");
     verticalWalls.push(...board.verticalWalls);
     horizontalWalls.push(...board.horizontalWalls);
-    for(let [name, coordinates] of Object.entries(board.goals)) {
+    for(let [name, coordinates] of board.goals) {
         goals.get(name).push(coordinates);
     }
     const board2 = rotateBoard(boards.get("zwei"), 1);
     verticalWalls.push(...board2.verticalWalls);
     horizontalWalls.push(...board2.horizontalWalls);
-    for(let [name, coordinates] of Object.entries(board2.goals)) {
+    for(let [name, coordinates] of board2.goals) {
         goals.get(name).push(coordinates);
     }
 }
 
 function rotateBoard(board, rotations) {
-    
     const newVerticalWalls = board.horizontalWalls.map((wall) => [16-wall[1], wall[0]]);
     board.horizontalWalls = board.verticalWalls.map((wall) => [15-wall[1], wall[0]]);
     board.verticalWalls = newVerticalWalls;
-    board.goals = Object.fromEntries(Object.entries(board.goals));
+    // board.goals = Object.fromEntries(Object.entries(board.goals));
     return board;
 }
 
