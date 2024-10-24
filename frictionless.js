@@ -103,6 +103,7 @@ boards.set("cat", new Board({
     goals: {allie: [2, 1], doug: [1, 3], saul: [6, 4], frida: [5, 6], asdf: [3, 7]},
 }));
 
+let canvas;
 const verticalWalls = [];
 const horizontalWalls = [];
 const goals = new Map();
@@ -147,12 +148,12 @@ let selectedFriend = friends.get("allie");
 function init() {
     pickBoards();
 
-    const canvas = document.getElementById("content");
-    drawGrid(canvas);
-    drawGoals(canvas);
-    drawFriends(canvas);
+    canvas = document.getElementById("content");
+    drawGrid();
+    drawGoals();
+    drawFriends();
     selectedFriend.visuallySelect();
-    drawWalls(canvas);
+    drawWalls();
     document.addEventListener("keydown", handleKeydown);
 }
 
@@ -187,7 +188,7 @@ function rotateBoard(board, rotations) {
     return board;
 }
 
-function drawGrid(canvas) {
+function drawGrid() {
     let gridPath = `M${RESOLUTION} 0H0v${RESOLUTION}`; // outer edge
     for (let x = 0; x <= GRID_SIZE; x++) {
         gridPath += `M${x * CELL_SIZE} 0v${RESOLUTION}`; // vertical lines
@@ -202,7 +203,7 @@ function drawGrid(canvas) {
     canvas.appendChild(pathEl);
 }
 
-function drawWalls(canvas) {
+function drawWalls() {
     let wallPath = "";
     for (let verticalWall of verticalWalls) {
         wallPath += `M${verticalWall[0] * CELL_SIZE} ${verticalWall[1] * CELL_SIZE}v${CELL_SIZE}`;
@@ -218,7 +219,7 @@ function drawWalls(canvas) {
     canvas.appendChild(pathEl);
 }
 
-function drawGoals(canvas) {
+function drawGoals() {
     for (let friendGoals of goals.values()) {
         for (let goal of friendGoals) {
             const goalEl = document.createElementNS(SVG_NS, "rect");
@@ -233,13 +234,13 @@ function drawGoals(canvas) {
     }
 }
 
-function drawFriends(canvas) {
+function drawFriends() {
     for (let friend of friends.values()) {
-        drawFriend(canvas, friend);
+        drawFriend(friend);
     }
 }
 
-function drawFriend(canvas, friend) {
+function drawFriend(friend) {
     // I had these in a group but it seemed to add overhead and not help
     // much since height, width, x, and y are not inheritable attributes
     const backgroundEl = document.createElementNS(SVG_NS, "rect");
@@ -250,6 +251,8 @@ function drawFriend(canvas, friend) {
     backgroundEl.setAttribute("stroke", "#222");
     backgroundEl.setAttribute("fill", friend.color);
     backgroundEl.setAttribute("class", `background friend ${friend.name}`);
+    canvas.appendChild(backgroundEl);
+
     const imageEl = document.createElementNS(SVG_NS, "image");
     imageEl.setAttribute("height", CELL_SIZE);
     imageEl.setAttribute("width", CELL_SIZE);
@@ -258,7 +261,6 @@ function drawFriend(canvas, friend) {
     imageEl.setAttribute("id", friend.name);
     imageEl.setAttribute("href", friend.asset);
     imageEl.setAttribute("class", `image friend ${friend.name}`);
-    canvas.appendChild(backgroundEl);
     canvas.appendChild(imageEl);
 }
 
