@@ -168,30 +168,47 @@ function pickBoards() {
     goals.set("frida", []);
     goals.set("asdf", []);
 
-    const board = boards.get("eins");
+    // Simulate physically randomizing boards: first permute the 4 boards
+    const boardOrder = shuffle([1, 2, 3, 4]);
+    // then for each board, pick a side to be facing up
+    const boardIdDict = new Map();
+    boardIdDict.set(1, ["eins", "un"]);
+    boardIdDict.set(2, ["zwei", "deux"]);
+    boardIdDict.set(3, ["drei", "trois"]);
+    boardIdDict.set(4, ["vier", "cat"]);
+    const boardIds = boardOrder.map((boardNum) => boardIdDict.get(boardNum)[Math.random() > 0.5 ? 1 : 0])
+
+    const board = boards.get(boardIds[0]);
     verticalWalls.push(...board.verticalWalls);
     horizontalWalls.push(...board.horizontalWalls);
     for(let [name, coordinates] of board.goals) {
         goals.get(name).push(coordinates);
     }
-    const board2 = rotateBoard(boards.get("zwei"), 1);
+    const board2 = rotateBoard(boards.get(boardIds[1]), 1);
     verticalWalls.push(...board2.verticalWalls);
     horizontalWalls.push(...board2.horizontalWalls);
     for(let [name, coordinates] of board2.goals) {
         goals.get(name).push(coordinates);
     }
-    const board3 = rotateBoard(boards.get("drei"), 2);
+    const board3 = rotateBoard(boards.get(boardIds[2]), 2);
     verticalWalls.push(...board3.verticalWalls);
     horizontalWalls.push(...board3.horizontalWalls);
     for(let [name, coordinates] of board3.goals) {
         goals.get(name).push(coordinates);
     }
-    const board4 = rotateBoard(boards.get("vier"), 3);
+    const board4 = rotateBoard(boards.get(boardIds[3]), 3);
     verticalWalls.push(...board4.verticalWalls);
     horizontalWalls.push(...board4.horizontalWalls);
     for(let [name, coordinates] of board4.goals) {
         goals.get(name).push(coordinates);
     }
+}
+
+// Schwartzian transform
+function shuffle(arr) {
+    return arr.map(val => [val, Math.random()])
+        .sort((p, q) => p[1] - q[1])
+        .map((aug) => aug[0]);
 }
 
 function rotateBoard(board, rotations) {
