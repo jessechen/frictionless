@@ -165,7 +165,7 @@ function init() {
 
     canvas = document.getElementById("content");
     drawGrid();
-    drawGoal();
+    drawGoals();
     drawFriends();
     drawWalls();
     // Set initial z-indices
@@ -207,14 +207,17 @@ function pickNextGoal() {
 
 function updateGoalDisplay() {
     const goalEl = document.getElementById("goal");
+    const centerEl = document.getElementById("center");
     goalEl.setAttribute("x", currentGoal.x * CELL_SIZE);
     goalEl.setAttribute("y", currentGoal.y * CELL_SIZE);
 
     if (currentGoal.name === "asdf") {
         goalEl.setAttribute("fill", "#fff");
+        centerEl.setAttribute("fill", "#fff");
     } else {
         const goalOwner = friends.get(currentGoal.name);
         goalEl.setAttribute("fill", goalOwner.accent);
+        centerEl.setAttribute("fill", goalOwner.color);
     }
 }
 
@@ -283,7 +286,7 @@ function drawWalls() {
     canvas.appendChild(pathEl);
 }
 
-function drawGoal() {
+function drawGoals() {
     const goalEl = document.createElementNS(SVG_NS, "rect");
     goalEl.setAttribute("x", 0);
     goalEl.setAttribute("y", 0);
@@ -293,6 +296,16 @@ function drawGoal() {
     goalEl.setAttribute("fill", "none");
     goalEl.setAttribute("id", "goal");
     canvas.appendChild(goalEl);
+
+    const centerEl = document.createElementNS(SVG_NS, "rect");
+    centerEl.setAttribute("x", 7 * CELL_SIZE);
+    centerEl.setAttribute("y", 7 * CELL_SIZE);
+    centerEl.setAttribute("width", CELL_SIZE * 2);
+    centerEl.setAttribute("height", CELL_SIZE * 2);
+    centerEl.setAttribute("stroke", "none");
+    centerEl.setAttribute("fill", "none");
+    centerEl.setAttribute("id", "center");
+    canvas.appendChild(centerEl);
 }
 
 function drawFriends() {
