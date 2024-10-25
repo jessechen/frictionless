@@ -120,6 +120,7 @@ const verticalWalls = [];
 const horizontalWalls = [];
 const unusedGoals = [];
 const usedGoals = [];
+let currentGoal;
 
 // Crocodile, Squirrel, Duck, and Fox icons created by iconixar - Flaticon
 const friends = new Map();
@@ -160,6 +161,7 @@ let selectedFriend = friends.get("allie");
 
 function init() {
     pickBoards();
+    pickNextGoal();
 
     canvas = document.getElementById("content");
     drawGrid();
@@ -183,14 +185,23 @@ function pickBoards() {
     boardIdDict.set(4, ["vier", "cat"]);
     const boardIds = boardOrder.map((boardNum) => boardIdDict.get(boardNum)[Math.random() > 0.5 ? 1 : 0])
 
+    const goals = [];
     boardIds.forEach((boardId, idx) => {
         const board = rotateBoard(boards.get(boardId), idx);
         verticalWalls.push(...board.verticalWalls);
         horizontalWalls.push(...board.horizontalWalls);
         for(let [name, coordinates] of board.goals) {
-            unusedGoals.push(new Goal({name: name, x: coordinates[0], y: coordinates[1]}));
+            goals.push(new Goal({name: name, x: coordinates[0], y: coordinates[1]}));
         }
     });
+    unusedGoals.concat(shuffle(goals));
+}
+
+function pickNextGoal() {
+    if (unusedGoals.length === 0) {
+        unusedGoals.concat(shuffle(usedGoals));
+    }
+    currentGoal = unusedGoals.shift();
 }
 
 // Schwartzian transform
