@@ -417,9 +417,22 @@ function moveSelectedFriend(direction) {
             break;
     }
     friend.updatePosition();
+    checkIfGoalReached(friend);
 }
 
 // Thanks, JavaScript
 function compareInts(a, b) {
     return a - b;
+}
+
+function checkIfGoalReached(friend) {
+    if (friend.name === currentGoal.name &&
+        friend.x === currentGoal.x &&
+        friend.y === currentGoal.y) {
+        // goal is reached game code goes here
+
+        usedGoals.push(currentGoal);
+        pickNextGoal();
+        updateGoalDisplay();
+    }
 }
