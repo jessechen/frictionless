@@ -205,22 +205,6 @@ function pickNextGoal() {
     currentGoal = unusedGoals.shift();
 }
 
-function updateGoalDisplay() {
-    const goalEl = document.getElementById("goal");
-    const centerEl = document.getElementById("center");
-    goalEl.setAttribute("x", currentGoal.x * CELL_SIZE);
-    goalEl.setAttribute("y", currentGoal.y * CELL_SIZE);
-
-    if (currentGoal.name === "asdf") {
-        goalEl.setAttribute("fill", "#fff");
-        centerEl.setAttribute("fill", "#fff");
-    } else {
-        const goalOwner = friends.get(currentGoal.name);
-        goalEl.setAttribute("fill", goalOwner.accent);
-        centerEl.setAttribute("fill", goalOwner.color);
-    }
-}
-
 // Schwartzian transform
 function shuffle(arr) {
     return arr.map(val => [val, Math.random()])
@@ -265,24 +249,6 @@ function drawGrid() {
     pathEl.setAttribute("d", gridPath);
     pathEl.setAttribute("stroke", "#246");
     pathEl.setAttribute("fill", "none");
-    canvas.appendChild(pathEl);
-}
-
-function drawWalls() {
-    let wallPath = "";
-    for (let verticalWall of verticalWalls) {
-        wallPath += `M${verticalWall[0] * CELL_SIZE} ${verticalWall[1] * CELL_SIZE}v${CELL_SIZE}`;
-    }
-    for (let horizontalWall of horizontalWalls) {
-        wallPath += `M${horizontalWall[0] * CELL_SIZE} ${horizontalWall[1] * CELL_SIZE}h${CELL_SIZE}`;
-    }
-    const pathEl = document.createElementNS(SVG_NS, "path");
-    pathEl.setAttribute("d", wallPath);
-    pathEl.setAttribute("stroke", "#024");
-    pathEl.setAttribute("stroke-width", "8");
-    pathEl.setAttribute("stroke-linecap", "round");
-    pathEl.setAttribute("fill", "none");
-    pathEl.setAttribute("id", "walls");
     canvas.appendChild(pathEl);
 }
 
@@ -332,6 +298,50 @@ function drawFriends() {
         imageEl.setAttribute("href", friend.asset);
         imageEl.setAttribute("class", `image friend ${friend.name}`);
         canvas.appendChild(imageEl);
+    }
+}
+
+function drawWalls() {
+    let wallPath = "";
+    for (let verticalWall of verticalWalls) {
+        wallPath += `M${verticalWall[0] * CELL_SIZE} ${verticalWall[1] * CELL_SIZE}v${CELL_SIZE}`;
+    }
+    for (let horizontalWall of horizontalWalls) {
+        wallPath += `M${horizontalWall[0] * CELL_SIZE} ${horizontalWall[1] * CELL_SIZE}h${CELL_SIZE}`;
+    }
+    const pathEl = document.createElementNS(SVG_NS, "path");
+    pathEl.setAttribute("d", wallPath);
+    pathEl.setAttribute("stroke", "#024");
+    pathEl.setAttribute("stroke-width", "8");
+    pathEl.setAttribute("stroke-linecap", "round");
+    pathEl.setAttribute("fill", "none");
+    pathEl.setAttribute("id", "walls");
+    canvas.appendChild(pathEl);
+}
+
+function selectFriend(friend) {
+    selectedFriend.visuallyDeselect();
+    friend.visuallySelect();
+    selectedFriend = friend;
+
+    // z-indices: walls < selected < other friends < goals < grid
+    friend.pullToTop();
+    canvas.appendChild(document.getElementById("walls"));
+}
+
+function updateGoalDisplay() {
+    const goalEl = document.getElementById("goal");
+    const centerEl = document.getElementById("center");
+    goalEl.setAttribute("x", currentGoal.x * CELL_SIZE);
+    goalEl.setAttribute("y", currentGoal.y * CELL_SIZE);
+
+    if (currentGoal.name === "asdf") {
+        goalEl.setAttribute("fill", "#fff");
+        centerEl.setAttribute("fill", "#fff");
+    } else {
+        const goalOwner = friends.get(currentGoal.name);
+        goalEl.setAttribute("fill", goalOwner.accent);
+        centerEl.setAttribute("fill", goalOwner.color);
     }
 }
 
@@ -407,16 +417,6 @@ function moveSelectedFriend(direction) {
             break;
     }
     friend.updatePosition();
-}
-
-function selectFriend(friend) {
-    selectedFriend.visuallyDeselect();
-    friend.visuallySelect();
-    selectedFriend = friend;
-
-    // z-indices: walls < selected < other friends < goals < grid
-    friend.pullToTop();
-    canvas.appendChild(document.getElementById("walls"));
 }
 
 // Thanks, JavaScript
