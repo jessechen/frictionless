@@ -162,6 +162,7 @@ function init() {
 }
 
 function pickBoards() {
+    // my kingdom for a multimap
     goals.set("allie", []);
     goals.set("saul", []);
     goals.set("doug", []);
@@ -178,30 +179,14 @@ function pickBoards() {
     boardIdDict.set(4, ["vier", "cat"]);
     const boardIds = boardOrder.map((boardNum) => boardIdDict.get(boardNum)[Math.random() > 0.5 ? 1 : 0])
 
-    const board = boards.get(boardIds[0]);
-    verticalWalls.push(...board.verticalWalls);
-    horizontalWalls.push(...board.horizontalWalls);
-    for(let [name, coordinates] of board.goals) {
-        goals.get(name).push(coordinates);
-    }
-    const board2 = rotateBoard(boards.get(boardIds[1]), 1);
-    verticalWalls.push(...board2.verticalWalls);
-    horizontalWalls.push(...board2.horizontalWalls);
-    for(let [name, coordinates] of board2.goals) {
-        goals.get(name).push(coordinates);
-    }
-    const board3 = rotateBoard(boards.get(boardIds[2]), 2);
-    verticalWalls.push(...board3.verticalWalls);
-    horizontalWalls.push(...board3.horizontalWalls);
-    for(let [name, coordinates] of board3.goals) {
-        goals.get(name).push(coordinates);
-    }
-    const board4 = rotateBoard(boards.get(boardIds[3]), 3);
-    verticalWalls.push(...board4.verticalWalls);
-    horizontalWalls.push(...board4.horizontalWalls);
-    for(let [name, coordinates] of board4.goals) {
-        goals.get(name).push(coordinates);
-    }
+    boardIds.forEach((boardId, idx) => {
+        const board = rotateBoard(boards.get(boardId), idx);
+        verticalWalls.push(...board.verticalWalls);
+        horizontalWalls.push(...board.horizontalWalls);
+        for(let [name, coordinates] of board.goals) {
+            goals.get(name).push(coordinates);
+        }
+    });
 }
 
 // Schwartzian transform
