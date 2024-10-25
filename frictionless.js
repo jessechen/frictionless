@@ -170,6 +170,7 @@ function init() {
     drawWalls();
     // Set initial z-indices
     selectFriend(selectedFriend);
+    updateGoalDisplay();
 
     document.addEventListener("keydown", handleKeydown);
 }
@@ -194,14 +195,27 @@ function pickBoards() {
             goals.push(new Goal({name: name, x: coordinates[0], y: coordinates[1]}));
         }
     });
-    unusedGoals.concat(shuffle(goals));
+    unusedGoals.push(...shuffle(goals));
 }
 
 function pickNextGoal() {
     if (unusedGoals.length === 0) {
-        unusedGoals.concat(shuffle(usedGoals));
+        unusedGoals.push(...shuffle(usedGoals));
     }
     currentGoal = unusedGoals.shift();
+}
+
+function updateGoalDisplay() {
+    const goalEl = document.getElementById("goal");
+    goalEl.setAttribute("x", currentGoal.x * CELL_SIZE);
+    goalEl.setAttribute("y", currentGoal.y * CELL_SIZE);
+
+    if (currentGoal.name === "asdf") {
+        goalEl.setAttribute("fill", "#fff");
+    } else {
+        const goalOwner = friends.get(currentGoal.name);
+        goalEl.setAttribute("fill", goalOwner.accent);
+    }
 }
 
 // Schwartzian transform
@@ -277,6 +291,7 @@ function drawGoal() {
     goalEl.setAttribute("height", CELL_SIZE);
     goalEl.setAttribute("stroke", "none");
     goalEl.setAttribute("fill", "none");
+    goalEl.setAttribute("id", "goal");
     canvas.appendChild(goalEl);
 }
 
