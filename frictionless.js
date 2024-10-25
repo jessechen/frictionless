@@ -57,6 +57,14 @@ class Board {
     }
 }
 
+class Goal {
+    constructor(props) {
+        this.name = props.name;
+        this.x = props.x;
+        this.y = props.y;
+    }
+}
+
 const boards = new Map();
 boards.set("eins", new Board({
     id: "eins",
@@ -110,7 +118,8 @@ boards.set("cat", new Board({
 let canvas;
 const verticalWalls = [];
 const horizontalWalls = [];
-const goals = new Map();
+const unusedGoals = [];
+const usedGoals = [];
 
 // Crocodile, Squirrel, Duck, and Fox icons created by iconixar - Flaticon
 const friends = new Map();
@@ -154,7 +163,7 @@ function init() {
 
     canvas = document.getElementById("content");
     drawGrid();
-    drawGoals();
+    drawGoal();
     drawFriends();
     drawWalls();
     // Set initial z-indices
@@ -164,13 +173,6 @@ function init() {
 }
 
 function pickBoards() {
-    // my kingdom for a multimap
-    goals.set("allie", []);
-    goals.set("saul", []);
-    goals.set("doug", []);
-    goals.set("frida", []);
-    goals.set("asdf", []);
-
     // Simulate physically randomizing boards: first permute the 4 boards
     const boardOrder = shuffle([1, 2, 3, 4]);
     // then for each board, pick a side to be facing up
@@ -186,7 +188,7 @@ function pickBoards() {
         verticalWalls.push(...board.verticalWalls);
         horizontalWalls.push(...board.horizontalWalls);
         for(let [name, coordinates] of board.goals) {
-            goals.get(name).push(coordinates);
+            unusedGoals.push(new Goal({name: name, x: coordinates[0], y: coordinates[1]}));
         }
     });
 }
@@ -256,19 +258,15 @@ function drawWalls() {
     canvas.appendChild(pathEl);
 }
 
-function drawGoals() {
-    for (let friendGoals of goals.values()) {
-        for (let goal of friendGoals) {
-            const goalEl = document.createElementNS(SVG_NS, "rect");
-            goalEl.setAttribute("x", goal[0] * CELL_SIZE);
-            goalEl.setAttribute("y", goal[1] * CELL_SIZE);
-            goalEl.setAttribute("width", CELL_SIZE);
-            goalEl.setAttribute("height", CELL_SIZE);
-            goalEl.setAttribute("stroke", "none");
-            goalEl.setAttribute("fill", "#ff99c8");
-            canvas.appendChild(goalEl);
-        }
-    }
+function drawGoal() {
+    const goalEl = document.createElementNS(SVG_NS, "rect");
+    goalEl.setAttribute("x", 0);
+    goalEl.setAttribute("y", 0);
+    goalEl.setAttribute("width", CELL_SIZE);
+    goalEl.setAttribute("height", CELL_SIZE);
+    goalEl.setAttribute("stroke", "none");
+    goalEl.setAttribute("fill", "none");
+    canvas.appendChild(goalEl);
 }
 
 function drawFriends() {
