@@ -284,19 +284,21 @@ function drawFriends() {
         backgroundEl.setAttribute("width", CELL_SIZE);
         backgroundEl.setAttribute("x", friend.x * CELL_SIZE);
         backgroundEl.setAttribute("y", friend.y * CELL_SIZE);
+        backgroundEl.setAttribute("id", friend.name);
         backgroundEl.setAttribute("stroke", "#246");
         backgroundEl.setAttribute("stroke-linejoin", "round");
         backgroundEl.setAttribute("fill", friend.color);
         backgroundEl.setAttribute("class", `background friend ${friend.name}`);
         canvas.appendChild(backgroundEl);
+        backgroundEl.addEventListener("click", handleFriendClick);
 
         const imageEl = document.createElementNS(SVG_NS, "image");
         imageEl.setAttribute("height", CELL_SIZE);
         imageEl.setAttribute("width", CELL_SIZE);
         imageEl.setAttribute("x", friend.x * CELL_SIZE);
         imageEl.setAttribute("y", friend.y * CELL_SIZE);
-        imageEl.setAttribute("id", friend.name);
         imageEl.setAttribute("href", friend.asset);
+        imageEl.setAttribute("pointer-events", "none");
         imageEl.setAttribute("class", `image friend ${friend.name}`);
         canvas.appendChild(imageEl);
     }
@@ -440,4 +442,11 @@ function checkIfGoalReached(friend) {
 
 function handleCenterClick() {
 
+}
+
+function handleFriendClick(evt) {
+    const friend = friends.get(evt.target.id);
+    if (friend) {
+        selectFriend(friend);
+    }
 }
