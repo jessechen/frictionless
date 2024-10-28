@@ -275,7 +275,7 @@ function drawGoals() {
     goalEl.setAttribute("y", 0);
     goalEl.setAttribute("width", CELL_SIZE);
     goalEl.setAttribute("height", CELL_SIZE);
-    goalEl.setAttribute("stroke", "none");
+    goalEl.setAttribute("stroke", "#246");
     goalEl.setAttribute("fill", "none");
     goalEl.setAttribute("id", "goal");
     canvas.appendChild(goalEl);
