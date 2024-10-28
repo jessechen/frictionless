@@ -164,6 +164,7 @@ function init() {
     pickNextGoal();
 
     canvas = document.getElementById("content");
+    drawWildTile();
     drawGrid();
     drawGoals();
     drawFriends();
@@ -235,6 +236,22 @@ function rotateBoard(board, rotations) {
         }
     }
     return board;
+}
+
+function drawWildTile() {
+    const patternEl = document.createElementNS(SVG_NS, "pattern");
+    patternEl.setAttribute("id", "wild");
+    patternEl.setAttribute("viewBox", "0 0 64 64");
+    patternEl.setAttribute("width", "1");
+    patternEl.setAttribute("height", "1");
+    const wildEl = document.createElementNS(SVG_NS, "image");
+    wildEl.setAttribute("href", "static/wild.svg");
+    wildEl.setAttribute("width", "64");
+    wildEl.setAttribute("height", "64");
+    const defsEl = document.createElementNS(SVG_NS, "defs");
+    patternEl.appendChild(wildEl);
+    defsEl.appendChild(patternEl);
+    canvas.appendChild(defsEl);
 }
 
 function drawGrid() {
@@ -339,8 +356,8 @@ function updateGoalDisplay() {
     goalEl.setAttribute("y", currentGoal.y * CELL_SIZE);
 
     if (currentGoal.name === "asdf") {
-        goalEl.setAttribute("fill", "#fff");
-        centerEl.setAttribute("fill", "#fff");
+        goalEl.setAttribute("fill", "url(#wild)");
+        centerEl.setAttribute("fill", "url(#wild)");
     } else {
         const goalOwner = friends.get(currentGoal.name);
         goalEl.setAttribute("fill", goalOwner.accent);
