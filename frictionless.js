@@ -354,6 +354,10 @@ function handleKeydown(evt) {
         case "ArrowRight":
         case "ArrowDown":
         case "ArrowLeft":
+        case "h":
+        case "j":
+        case "k":
+        case "l":
             moveSelectedFriend(evt.key);
             break;
         case "a":
@@ -377,6 +381,7 @@ function moveSelectedFriend(direction) {
     let newX, newY, collisions;
     switch(direction) {
         case "ArrowUp":
+        case "k":
             collisions = otherFriends.map((f) => f.horizontalCollisions()).toArray().flat();
             newY = horizontalWalls.concat(collisions)
                 .filter((wall) => wall[0] === friend.x)
@@ -387,6 +392,7 @@ function moveSelectedFriend(direction) {
             friend.y = newY || 0;
             break;
         case "ArrowRight":
+        case "l":
             collisions = otherFriends.map((f) => f.verticalCollisions()).toArray().flat();
             newX = verticalWalls.concat(collisions)
                 .filter((wall) => wall[1] === friend.y)
@@ -398,6 +404,7 @@ function moveSelectedFriend(direction) {
             friend.x = newX - 1;
             break;
         case "ArrowDown":
+        case "j":
             collisions = otherFriends.map((f) => f.horizontalCollisions()).toArray().flat();
             newY = horizontalWalls.concat(collisions)
                 .filter((wall) => wall[0] === friend.x)
@@ -409,6 +416,7 @@ function moveSelectedFriend(direction) {
             friend.y = newY - 1;
             break;
         case "ArrowLeft":
+        case "h":
             collisions = otherFriends.map((f) => f.verticalCollisions()).toArray().flat();
             newX = verticalWalls.concat(collisions)
                 .filter((wall) => wall[1] === friend.y)
