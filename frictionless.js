@@ -272,6 +272,7 @@ function drawGoals() {
     centerEl.setAttribute("fill", "none");
     centerEl.setAttribute("id", "center");
     canvas.appendChild(centerEl);
+    centerEl.addEventListener("click", handleCenterClick);
 }
 
 function drawFriends() {
@@ -426,7 +427,7 @@ function compareInts(a, b) {
 }
 
 function checkIfGoalReached(friend) {
-    if (friend.name === currentGoal.name &&
+    if ((friend.name === currentGoal.name || currentGoal.name === "asdf" )&&
         friend.x === currentGoal.x &&
         friend.y === currentGoal.y) {
         // goal is reached game code goes here
@@ -435,4 +436,8 @@ function checkIfGoalReached(friend) {
         pickNextGoal();
         updateGoalDisplay();
     }
+}
+
+function handleCenterClick() {
+
 }

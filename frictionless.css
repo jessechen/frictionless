@@ -19,3 +19,7 @@ main {
 .friend {
     transition: x 0.15s ease-in-out, y 0.15s ease-in-out;
 }
+
+#center {
+    cursor: pointer;
+}
